@@ -8,7 +8,8 @@ export interface Options {
   input?: string;
   outputDir?: string;
   filename?: string;
-  typescriptOutput?: boolean;
+  typescriptOutput: boolean;
+  watch: boolean;
 }
 
 function parseArgumentsIntoOptions(rawArgs: string[]): Options {
@@ -18,10 +19,12 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
       "--output-dir": String,
       "--typescript-output": Boolean,
       "--filename": String,
+      "--watch": Boolean,
       "-i": "--input",
       "-o": "--output-dir",
       "-t": "--typescript-output",
       "-f": "--filename",
+      "-w": "--watch",
     },
     {
       argv: rawArgs.slice(2),
@@ -30,8 +33,9 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
   return {
     input: args["--input"],
     outputDir: args["--output-dir"],
-    typescriptOutput: args["--typescript-output"],
+    typescriptOutput: args["--typescript-output"] || false,
     filename: args["--filename"],
+    watch: args["--watch"] || false, // WIP
   };
 }
 
