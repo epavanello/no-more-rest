@@ -1,25 +1,24 @@
 {
   "name": "no-more-rest",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A tool to \"directly\" call functions on the server.",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "@epavanello/fapi": "bin/no-rest",
-    "no-rest": "bin/no-rest"
+    "@epavanello/no-more-rest": "bin/no-more-rest",
+    "no-more-rest": "bin/no-more-rest"
   },
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
     "cli",
-    "no-rest"
+    "no-more-rest"
   ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "publish": "npm publish --access public",
     "prepublish": "tsc"
   },
   "author": "Pavanello Emanuele <pavanello.emanuele@gmail.com> (http://pava.me)",
