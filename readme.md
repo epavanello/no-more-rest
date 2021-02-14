@@ -10,7 +10,7 @@ With a smart generator that create in real time (*with a -whatch mode*) a small 
 
 1. Installation
 
-   Install the package on the server project with `npm i no-rest`
+   Install the package on the server project with `npm i no-more-rest`
 
 2. Examples
 
