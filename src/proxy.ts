@@ -1,4 +1,4 @@
-function proxy(name: string, parameters: any[]) {
+function proxy(name: string, parameters: IArguments) {
   return new Promise(function (resolve) {
     fetch(`http://localhost:8000/fapi/${name}`, {
       method: "POST",

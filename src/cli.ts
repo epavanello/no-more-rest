@@ -1,11 +1,13 @@
 import arg from "arg";
-import inquirer from "inquirer";
+import inquirer, { QuestionCollection } from "inquirer";
 import { Parser } from "acorn";
 import * as path from "path";
+import fs from "fs";
 
 export interface Options {
   input?: string;
   outputDir?: string;
+  filename?: string;
   typescriptOutput?: boolean;
 }
 
@@ -15,9 +17,11 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
       "--input": String,
       "--output-dir": String,
       "--typescript-output": Boolean,
+      "--filename": String,
       "-i": "--input",
       "-o": "--output-dir",
-      "-to": "--typescript-output",
+      "-t": "--typescript-output",
+      "-f": "--filename",
     },
     {
       argv: rawArgs.slice(2),
@@ -27,11 +31,12 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
     input: args["--input"],
     outputDir: args["--output-dir"],
     typescriptOutput: args["--typescript-output"],
+    filename: args["--filename"],
   };
 }
 
 async function promptForMissingOptions(options: Options): Promise<Options> {
-  const questions = [];
+  const questions: QuestionCollection[] = [];
   if (!options.input) {
     questions.push({
       type: "input",
@@ -46,11 +51,20 @@ async function promptForMissingOptions(options: Options): Promise<Options> {
       message: "Please Choose the destination folder",
     });
   }
-  if (!options.typescriptOutput) {
+
+  if (typeof options.typescriptOutput == "undefined") {
     questions.push({
       type: "confirm",
       name: "typescriptOutput",
       message: "Do you want a Typescript output?",
+    });
+  }
+  if (!options.filename) {
+    questions.push({
+      type: "input",
+      name: "filename",
+      message: "Which filename do you want to generate?",
+      default: "serverAPI",
     });
   }
 
@@ -60,18 +74,20 @@ async function promptForMissingOptions(options: Options): Promise<Options> {
     input: options.input || answers.input,
     outputDir: options.outputDir || answers.outputDir,
     typescriptOutput: options.typescriptOutput || answers.typescriptOutput,
+    filename: options.filename || answers.filename,
   };
 }
 
 export async function cli(args: string[]) {
   let options = parseArgumentsIntoOptions(args);
-  options = await promptForMissingOptions(options);
-  console.log("args", args);
+  if (args.length == 2 || !options.input || !options.outputDir) {
+    options = await promptForMissingOptions(options);
+  }
   generate(options, args[1]);
 }
 
 export function generate(options: Options, binPath: string) {
-  var fs = require("fs");
+  console.log("Started generation with options", options);
 
   let generated = fs
     .readFileSync(
@@ -85,7 +101,7 @@ export function generate(options: Options, binPath: string) {
     )
     .toString();
 
-  const ast = Parser.parse(fs.readFileSync(options.input).toString(), {
+  const ast = Parser.parse(fs.readFileSync(options.input!).toString(), {
     sourceType: "module",
     ecmaVersion: "latest",
   });
@@ -102,11 +118,12 @@ export function generate(options: Options, binPath: string) {
 `;
     }
   }
-  fs.writeFileSync(
-    path.join(
-      options.outputDir!,
-      "generated" + options.typescriptOutput ? ".ts" : ".js"
-    ),
-    generated
+  const outputFile = path.join(
+    options.outputDir!,
+    (options.filename || "serverAPI") +
+      (options.typescriptOutput ? ".ts" : ".js")
   );
+  fs.writeFileSync(outputFile, generated);
+
+  console.log(`File ${outputFile} created`);
 }
