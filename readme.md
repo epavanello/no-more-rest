@@ -11,6 +11,7 @@ With a smart generator that create in real time (_with a -whatch mode_) a small 
 1. [Installation](#installation)
 2. [Usage](#usage)
 3. [Configuration](#configuration)
+4. [Dependencies](#dependencies)
 
 ## Installation
 
@@ -73,7 +74,7 @@ app.listen(8000);
 </html>
 ```
 
-### Configuration
+## Configuration
 
 The *no-more-rest* cli support these parameters
 
@@ -86,3 +87,6 @@ The *no-more-rest* cli support these parameters
 - **--filename** - _Filename to generate_
 
 - **--watch** - _Watch and generate the proxy file_
+
+## Dependencies
+Actually body-parser is a dependency on the server to be able to parse json body.
