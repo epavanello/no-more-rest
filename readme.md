@@ -23,7 +23,7 @@ Install the package on the server project with `npm i no-more-rest`
 Wrap your APIs and expose via express in this way
 
 ```javascript
-//myApi.js
+//server/myApi.js
 
 export function doLogin(username, password) {
   return username == "admin" && password == "admin";
@@ -36,7 +36,7 @@ export function getLoggedUsers() {
 ```
 
 ```javascript
-// server.js
+// server/server.js
 
 import express from "express";
 import { expose } from "no-more-rest";
@@ -60,7 +60,7 @@ app.listen(8000);
 - Import in the client your generated proxy and use it as if it were on your backend.
 
 ```javascript
-// index.js (on client side)
+// client/index.js
 import { doLogin, getLoggedUsers } from "./generatedProxy";
 
 doLogin("admin", "admin")
