@@ -102,4 +102,4 @@ Actually body-parser is a dependency on the server to be able to parse json body
 
 Here the first basic working example 💪🏽
 
-1. [basic-js](examples/basic-js/)
+1. [basic-js](https://github.com/epavanello/no-more-rest/tree/master/examples/basic-js)
