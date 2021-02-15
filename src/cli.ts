@@ -87,12 +87,19 @@ export async function cli(args: string[]) {
   if (args.length == 2 || !options.input || !options.outputDir) {
     options = await promptForMissingOptions(options);
   }
+
+  console.log("Started generation with options", options);
+
   generate(options, args[1]);
+  if (options.watch) {
+    fs.watchFile(options.input!, () => {
+      console.log("Change detected");
+      generate(options, args[1]);
+    });
+  }
 }
 
 export function generate(options: Options, binPath: string) {
-  console.log("Started generation with options", options);
-
   let generated = fs
     .readFileSync(
       path.join(
