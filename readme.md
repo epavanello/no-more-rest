@@ -4,7 +4,7 @@ No more rest calls! Call directly your backend APIs from EVERYWHERE! 🌍🚀
 
 Simplify and boost your development process, with this small package you are allowed to integrate continuously your backend APIs and your client code directly.
 
-With a smart generator that create in real time (_with a -whatch mode_) a small proxy, you're able to call trasparently your remote functions with all the support you need (intellisense, types, return types and more).
+With a smart generator that create in real time (_with a -watch mode_) a small proxy, you're able to call transparently your remote functions with all the support you need (intellisense, types, return types and more).
 
 ## Table of Contents
 
