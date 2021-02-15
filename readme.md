@@ -23,27 +23,28 @@ Install the package on the server project with `npm i no-more-rest`
 Wrap your APIs and expose via express in this way
 
 ```javascript
-//serverAPI.js
+//myApi.js
 
-export function sayHi() {
-  console.log("Called transparently from the client");
+export function doLogin(username, password) {
+  return username == "admin" && password == "admin";
 }
-export function pow(n) {
-  return n * n;
+
+export function getLoggedUsers() {
+  return ["Elon Musk", "admin"];
 }
+
 ```
 
 ```javascript
 // server.js
 
 import express from "express";
-const app = express();
-
 import { expose } from "no-more-rest";
 
-import * as yourApi from "./serverAPI";
+import * as myApi from "./myApi";
 
-expose(app, yourApi);
+const app = express();
+expose(app, myApi);
 
 app.listen(8000);
 ```
@@ -52,27 +53,32 @@ app.listen(8000);
 
 ```json
 "scripts": {
-   "sync": "no-more-rest --input serverAPI.js --output-dir ../your-client-path/"
+   "sync": "no-more-rest --input myApi.js --output-dir ../your-client-path/ --watch"
 }
 ```
 
 - Import in the client your generated proxy and use it as if it were on your backend.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Your website</title>
-    <script src="./serverAPI.js"></script>
+```javascript
+// index.js (on client side)
+import { doLogin, getLoggedUsers } from "./generatedProxy";
 
-    <script>
-      // Both support of intellisense and typecheck
-      proxy.sayHi();
+doLogin("admin", "admin")
+  .then((result) => {
+    if (result) {
+      alert("Login success");
 
-      proxy.pow(3).then((powResult) => console.log(powResult));
-    </script>
-  </head>
-</html>
+      getLoggedUsers().then((users) => {
+        alert("The logged users are: " + users.join(", "));
+      });
+    } else {
+      alert("Login failed");
+    }
+  })
+  .catch(() => {
+    alert("Network error");
+  });
+
 ```
 
 ## Configuration
