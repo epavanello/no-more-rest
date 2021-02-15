@@ -1,6 +1,6 @@
 {
   "name": "no-more-rest",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A tool to \"directly\" call functions on the server.",
   "type": "commonjs",
   "main": "dist/index.js",
