@@ -53,7 +53,7 @@ app.listen(8000);
 
 ```json
 "scripts": {
-   "sync": "no-more-rest --input myApi.js --output-dir ../your-client-path/ --watch"
+   "sync-api": "no-more-rest --input myApi.js --output-dir ../your-client-path/ --watch"
 }
 ```
 
