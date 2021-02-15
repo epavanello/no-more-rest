@@ -1,6 +1,6 @@
-function proxy(name: string, parameters: IArguments) {
-  return new Promise(function (resolve) {
-    fetch(`http://localhost:8000/fapi/${name}`, {
+function proxy(address: string, name: string, parameters: IArguments) {
+  return new Promise(function (resolve, reject) {
+    fetch(`${address}/nmr/${name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,6 +12,7 @@ function proxy(name: string, parameters: IArguments) {
       .then((response) => response.json())
       .then(function (data) {
         resolve(data.result);
-      });
+      })
+      .catch(reject);
   });
 }

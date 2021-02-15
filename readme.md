@@ -12,6 +12,7 @@ With a smart generator that create in real time (_with a -watch mode_) a small p
 2. [Usage](#usage)
 3. [Configuration](#configuration)
 4. [Dependencies](#dependencies)
+5. [Examples](#example)
 
 ## Installation
 
@@ -90,3 +91,9 @@ The *no-more-rest* cli support these parameters
 
 ## Dependencies
 Actually body-parser is a dependency on the server to be able to parse json body.
+
+## Examples
+
+Here the first basic working example 💪🏽
+
+1. [basic-js](examples/basic-js/readme.md)

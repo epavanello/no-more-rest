@@ -1,0 +1,6 @@
+{
+  "name": "basic-js-client",
+  "scripts": {
+    "start": "parcel index.html"
+  }
+}

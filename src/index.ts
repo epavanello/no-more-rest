@@ -9,7 +9,7 @@ export function expose(app: Application, api: { [key: string]: any }) {
     const f = api[key];
     if (typeof f == "function") {
       console.log("Exposed", f.toString());
-      app.post(`/fapi/${key}`, (req, res) => {
+      app.post(`/nmr/${key}`, (req, res) => {
         const parameters: any[] = (req.body as any).parameters;
 
         const result = f.apply(null, parameters);

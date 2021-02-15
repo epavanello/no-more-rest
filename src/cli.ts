@@ -7,6 +7,7 @@ import fs from "fs";
 export interface Options {
   input?: string;
   outputDir?: string;
+  address?: string;
   filename?: string;
   typescriptOutput: boolean;
   watch: boolean;
@@ -17,11 +18,13 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
     {
       "--input": String,
       "--output-dir": String,
+      "--address": String,
       "--typescript-output": Boolean,
       "--filename": String,
       "--watch": Boolean,
       "-i": "--input",
       "-o": "--output-dir",
+      "-a": "--address",
       "-t": "--typescript-output",
       "-f": "--filename",
       "-w": "--watch",
@@ -33,6 +36,7 @@ function parseArgumentsIntoOptions(rawArgs: string[]): Options {
   return {
     input: args["--input"],
     outputDir: args["--output-dir"],
+    address: args["--address"],
     typescriptOutput: args["--typescript-output"] || false,
     filename: args["--filename"],
     watch: args["--watch"] || false, // WIP
@@ -52,10 +56,17 @@ async function promptForMissingOptions(options: Options): Promise<Options> {
     questions.push({
       type: "input",
       name: "outputDir",
-      message: "Please Choose the destination folder",
+      message: "Please choose the destination folder",
     });
   }
-
+  if (!options.address) {
+    questions.push({
+      type: "input",
+      name: "address",
+      message: "Please specify the address of your servr",
+      default: "http://localhost:8000",
+    });
+  }
   if (typeof options.typescriptOutput == "undefined") {
     questions.push({
       type: "confirm",
@@ -68,7 +79,7 @@ async function promptForMissingOptions(options: Options): Promise<Options> {
       type: "input",
       name: "filename",
       message: "Which filename do you want to generate?",
-      default: "serverAPI",
+      default: "generatedProxy",
     });
   }
 
@@ -79,12 +90,18 @@ async function promptForMissingOptions(options: Options): Promise<Options> {
     outputDir: options.outputDir || answers.outputDir,
     typescriptOutput: options.typescriptOutput || answers.typescriptOutput,
     filename: options.filename || answers.filename,
+    address: options.address || answers.address,
   };
 }
 
 export async function cli(args: string[]) {
   let options = parseArgumentsIntoOptions(args);
-  if (args.length == 2 || !options.input || !options.outputDir) {
+  if (
+    args.length == 2 ||
+    !options.input ||
+    !options.outputDir ||
+    !options.address
+  ) {
     options = await promptForMissingOptions(options);
   }
 
@@ -123,15 +140,16 @@ export function generate(options: Options, binPath: string) {
     if (item.type == "ExportNamedDeclaration") {
       const functionName = item.declaration.id.name;
       const params = item.declaration.params.map((p: any) => p.name);
-      generated += `export function ${functionName}(${params.join(", ")}) {
-  return proxy('${functionName}', arguments);
+      generated += `
+export function ${functionName}(${params.join(", ")}) {
+  return proxy('${options.address}','${functionName}', arguments);
 }
 `;
     }
   }
   const outputFile = path.join(
     options.outputDir!,
-    (options.filename || "serverAPI") +
+    (options.filename || "generatedProxy") +
       (options.typescriptOutput ? ".ts" : ".js")
   );
   fs.writeFileSync(outputFile, generated);
