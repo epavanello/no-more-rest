@@ -2,6 +2,10 @@
   "name": "no-more-rest",
   "version": "0.0.7",
   "description": "A tool to \"directly\" call functions on the server.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epavanello/no-more-rest"
+  },
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
