@@ -1,26 +1,23 @@
-
-import { Application } from "express";
-import { Options } from "./cli";
-
+import { Application } from 'express'
 
 export function expose(app: Application, api: { [key: string]: any }) {
-  const keys = Object.keys(api);
+  const keys = Object.keys(api)
   for (const key of keys) {
-    const f = api[key];
-    if (typeof f == "function") {
-      console.log("Exposed", f.toString());
+    const f = api[key]
+    if (typeof f == 'function') {
+      console.log('Exposed', f.toString())
       app.post(`/nmr/${key}`, (req, res) => {
-        const parameters: any[] = (req.body as any).parameters;
+        const parameters: any[] = (req.body as any).parameters
 
-        const result = f.apply(null, parameters);
+        const result = f.apply(null, parameters)
         if (result instanceof Promise) {
           result.then(function (data) {
-            res.send({ result: data });
-          });
+            res.send({ result: data })
+          })
         } else {
-          res.send({ result: result });
+          res.send({ result: result })
         }
-      });
+      })
     }
   }
 }

@@ -4,7 +4,10 @@ No more rest calls! Call directly your backend APIs from EVERYWHERE! 🌍🚀
 
 Simplify and boost your development process, with this small package you are allowed to integrate continuously your backend APIs and your client code directly.
 
-With a smart generator that create in real time (_with a -watch mode_) a small proxy, you're able to call transparently your remote functions with all the support you need (intellisense, types, return types and more).
+With a smart generator that create in real time (*with a -watch mode*) a small proxy, you're able to call transparently your remote functions with all the support you need (intellisense, types, return types and more).
+<br>
+* revolutionizes the ways you develop as full stack developer
+* Easy to use and batteries included
 
 ## Table of Contents
 
@@ -22,7 +25,7 @@ Install the package on the server project with `npm i no-more-rest`
 
 Wrap your APIs and expose via express in this way
 
-```javascript
+``` javascript
 //server/myApi.js
 
 export function doLogin(username, password) {
@@ -32,10 +35,9 @@ export function doLogin(username, password) {
 export function getLoggedUsers() {
   return ["Elon Musk", "admin"];
 }
-
 ```
 
-```javascript
+``` javascript
 // server/server.js
 
 import express from "express";
@@ -49,17 +51,17 @@ expose(app, myApi);
 app.listen(8000);
 ```
 
-- Add this npm script to your package to generate the proxy script for the client from the exposed module
+* Add this npm script to your package to generate the proxy script for the client from the exposed module
 
-```json
+``` json
 "scripts": {
    "sync-api": "no-more-rest --input myApi.js --output-dir ../your-client-path/ --watch"
 }
 ```
 
-- Import in the client your generated proxy and use it as if it were on your backend.
+* Import in the client your generated proxy and use it as if it were on your backend.
 
-```javascript
+``` javascript
 // client/index.js
 import { doLogin, getLoggedUsers } from "./generatedProxy";
 
@@ -78,24 +80,20 @@ doLogin("admin", "admin")
   .catch(() => {
     alert("Network error");
   });
-
 ```
 
 ## Configuration
 
 The *no-more-rest* cli support these parameters
 
-- **--input** - _the file that exposes the functions_
-
-- **--output-dir** - _The destination folder_
-
-- **--typescript-output** - _Typescript output format_
-
-- **--filename** - _Filename to generate_
-
-- **--watch** - _Watch and generate the proxy file_
+* **--input** - *the file that exposes the functions*
+* **--output-dir** - *The destination folder*
+* **--typescript-output** - *Typescript output format*
+* **--filename** - *Filename to generate*
+* **--watch** - *Watch and generate the proxy file*
 
 ## Dependencies
+
 Actually body-parser is a dependency on the server to be able to parse json body.
 
 ## Examples
@@ -103,3 +101,17 @@ Actually body-parser is a dependency on the server to be able to parse json body
 Here the first basic working example 💪🏽
 
 1. [basic-js](https://github.com/epavanello/no-more-rest/tree/master/examples/basic-js)
+
+## Development
+
+### Roadmap
+
+* [x] Javascript generator
+* [x] Proxy APIs
+* [ ] Typescript generator
+* [ ] Initialization command `no-more-rest init for` server and client
+    * Server - Add "generate" script package.json
+    * Server - Generate empty api.ts source
+    * Server - Locate and generate config for client path
+* [ ] Authorization example
+* [ ] Plugin website

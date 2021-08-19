@@ -26,7 +26,7 @@
     "update-package": "npm version patch && npm publish",
     "prepublish": "tsc"
   },
-  "author": "Pavanello Emanuele <pavanello.emanuele@gmail.com> (http://pava.me)",
+  "author": "Pavanello Emanuele <pavanello.emanuele@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "acorn": "^8.0.5",
